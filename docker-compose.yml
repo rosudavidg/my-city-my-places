@@ -1,0 +1,75 @@
+version: "3.8"
+
+services:
+
+  database:
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_DB_FILE: /run/secrets/secret_database_db
+      POSTGRES_USER_FILE: /run/secrets/secret_database_user
+      POSTGRES_PASSWORD_FILE: /run/secrets/secret_database_password
+    networks:
+      - database_adminer
+      - backend_database
+    volumes:
+      - database_volume:/var/lib/postgresql/data
+    secrets:
+      - secret_database_user
+      - secret_database_password
+      - secret_database_db
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_USER: /run/secrets/secret_database_user
+      DATABASE_PASSWORD: /run/secrets/secret_database_password
+      DATABASE_DB: /run/secrets/secret_database_db
+      EMAIL_ADDRESS: /run/secrets/secret_email_address
+      EMAIL_PASSWORD: /run/secrets/secret_email_password
+      AUTH_JWT_KEY: /run/secrets/secret_auth_jwt_key
+      BASE_URL: http://localhost:5000
+    secrets:
+      - secret_database_user
+      - secret_database_password
+      - secret_database_db
+      - secret_email_address
+      - secret_email_password
+      - secret_auth_jwt_key
+    ports: 
+      - 5000:5000
+    volumes:
+      - ./backend:/app
+    networks:
+      - backend_database
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    networks:
+      - database_adminer
+
+networks:
+  database_adminer:
+  backend_database:
+
+volumes:
+  database_volume:
+
+secrets:
+  secret_database_user:
+    file: ./secrets/database_user
+  secret_database_password:
+    file: ./secrets/database_password
+  secret_database_db:
+    file: ./secrets/database_db
+  secret_email_address:
+    file: ./secrets/email_address
+  secret_email_password:
+    file: ./secrets/email_password
+  secret_auth_jwt_key:
+    file: ./secrets/auth_jwt_key
