@@ -1,13 +1,16 @@
 from flask import Flask, request, Response, json
+from flask_cors import CORS, cross_origin
 import security
 import database
 import utils
 import email_utils
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 
-@app.route('/status', methods=['GET'])
+@app.route('/api/status', methods=['GET'])
 def status():
     return Response("Server is running!", status=200, mimetype='application/json')
 
@@ -119,9 +122,150 @@ def create_location():
         lat = utils.get_field(body, 'lat')
         lng = utils.get_field(body, 'lng')
 
-        database.insert_location(db_connection, user['id'], name, lat, lng)
+        location_id = database.insert_location(
+            db_connection, user['id'], name, lat, lng)
+
+        return Response(json.dumps({'id': location_id}), status=201, mimetype='application/json')
+    except Exception as e:
+        return Response(str(e), status=400, mimetype='application/json')
+    finally:
+        database.close_connection(db_connection)
+
+
+@app.route('/api/locations', methods=['GET'])
+def get_locations():
+    db_connection = database.create_database_connection()
+
+    try:
+        user = utils.get_user(request)
+
+        res = database.get_locations(db_connection, user['id'])
+
+        return Response(json.dumps(res), status=200, mimetype='application/json')
+    except Exception as e:
+        return Response(str(e), status=400, mimetype='application/json')
+    finally:
+        database.close_connection(db_connection)
+
+
+@app.route('/api/locations/<id>', methods=['DELETE'])
+def delete_location(id):
+    db_connection = database.create_database_connection()
+
+    try:
+        user = utils.get_user(request)
+
+        database.delete_location(db_connection, user['id'], id)
+
+        return Response("Deleted.", status=200, mimetype='application/json')
+    except Exception as e:
+        return Response(str(e), status=400, mimetype='application/json')
+    finally:
+        database.close_connection(db_connection)
+
+
+@app.route('/api/families', methods=['POST'])
+def create_family():
+    db_connection = database.create_database_connection()
+
+    try:
+        user = utils.get_user(request)
+
+        database.create_family(db_connection, user['id'])
 
         return Response('Created.', status=201, mimetype='application/json')
+    except Exception as e:
+        return Response(str(e), status=400, mimetype='application/json')
+    finally:
+        database.close_connection(db_connection)
+
+
+@app.route('/api/families', methods=['GET'])
+def get_family_details():
+    db_connection = database.create_database_connection()
+
+    try:
+        user = utils.get_user(request)
+
+        res = database.get_family_details(db_connection, user['id'])
+
+        return Response(json.dumps(res), status=200, mimetype='application/json')
+    except Exception as e:
+        return Response(str(e), status=400, mimetype='application/json')
+    finally:
+        database.close_connection(db_connection)
+
+
+@app.route('/api/families', methods=['DELETE'])
+def delete_family():
+    db_connection = database.create_database_connection()
+
+    try:
+        user = utils.get_user(request)
+
+        database.delete_family(db_connection, user['id'])
+
+        return Response('Deleted.', status=200, mimetype='application/json')
+    except Exception as e:
+        return Response(str(e), status=400, mimetype='application/json')
+    finally:
+        database.close_connection(db_connection)
+
+
+@app.route('/api/families/invitations', methods=['POST'])
+def create_family_invitations():
+    db_connection = database.create_database_connection()
+
+    try:
+        user = utils.get_user(request)
+        body = request.get_json()
+
+        if body == None:
+            raise Exception('Body is missing.')
+
+        email = utils.get_field(body, 'email')
+
+        # Generate invitation
+        invitation_token = utils.generate_activation_token()
+        database.create_family_invitation(
+            db_connection, user['id'], email, invitation_token)
+
+        # Send invitation
+        email_utils.send_family_invitation_link(email, invitation_token)
+
+        return Response('Sent.', status=201, mimetype='application/json')
+    except Exception as e:
+        return Response(str(e), status=400, mimetype='application/json')
+    finally:
+        database.close_connection(db_connection)
+
+
+@app.route('/api/families/join/<token>', methods=['GET'])
+def join_family(token):
+    db_connection = database.create_database_connection()
+
+    try:
+        user = utils.get_user(request)
+
+        database.join_family(db_connection, user['id'], token)
+
+        return Response('Ok.', status=200, mimetype='application/json')
+    except Exception as e:
+        return Response(str(e), status=400, mimetype='application/json')
+    finally:
+        database.close_connection(db_connection)
+
+
+@app.route('/api/families/leave', methods=['GET'])
+def leave_family():
+    db_connection = database.create_database_connection()
+
+    try:
+        user = utils.get_user(request)
+
+        database.leave_family(db_connection, user['id'])
+
+        return Response('Ok.', status=200, mimetype='application/json')
     except Exception as e:
         return Response(str(e), status=400, mimetype='application/json')
     finally:

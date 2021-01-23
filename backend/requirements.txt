@@ -2,3 +2,4 @@ Flask==1.1.1
 get-docker-secret==1.0.1
 psycopg2-binary==2.8.5
 PyJWT==2.0.0
+Flask-Cors==3.0.10
