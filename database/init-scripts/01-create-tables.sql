@@ -13,7 +13,8 @@ CREATE TABLE IF NOT EXISTS locations (
     user_id INTEGER REFERENCES users(id) NOT NULL,
     name VARCHAR (256) NOT NULL,
     lat FLOAT NOT NULL,
-    lng FLOAT NOT NULL
+    lng FLOAT NOT NULL,
+    UNIQUE (lat, lng, user_id)
 );
 
 CREATE TABLE IF NOT EXISTS families (
@@ -32,6 +33,12 @@ CREATE TABLE IF NOT EXISTS family_invitations (
     family_id INTEGER REFERENCES families(id) ON DELETE CASCADE NOT NULL,
     user_id INTEGER REFERENCES users(id) NOT NULL,
     token VARCHAR (64) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS exports (
+    id SERIAL PRIMARY KEY,
+    from_user_id INTEGER REFERENCES users(id) NOT NULL,
+    to_user_id INTEGER REFERENCES users(id) NOT NULL
 );
 
 ALTER TABLE users ADD CONSTRAINT users_family_id_fk FOREIGN KEY (family_id) REFERENCES families (id) MATCH FULL;

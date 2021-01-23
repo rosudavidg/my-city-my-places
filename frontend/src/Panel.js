@@ -2,6 +2,7 @@ import "./Panel.css"
 import { Tabs, Tab, Button } from 'react-bootstrap';
 import Locations from "./Locations"
 import Family from "./Family"
+import Export from "./Export"
 import { useHistory } from "react-router-dom";
 
 const Panel = ({ locations, setFocusLocationCoords, setFocusLocation, setCoords }) => {
@@ -23,6 +24,9 @@ const Panel = ({ locations, setFocusLocationCoords, setFocusLocation, setCoords 
             </Tab>
             <Tab eventKey="family" title="Family">
                 <Family />
+            </Tab>
+            <Tab eventKey="export" title="Export">
+                <Export />
             </Tab>
         </Tabs>
     </div >

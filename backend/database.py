@@ -390,3 +390,68 @@ def get_family_details(connection, user_id):
     cursor.close()
 
     return res
+
+
+def create_export(connection, user_id, email):
+    cursor = connection.cursor()
+
+    sql_select_user_id = "SELECT id FROM users WHERE email = %s"
+    val_select_user_id = (email,)
+
+    sql_insert = "INSERT INTO exports (from_user_id, to_user_id) VALUES (%s, %s) RETURNING *"
+
+    try:
+        cursor.execute(sql_select_user_id, val_select_user_id)
+        to_user_id = cursor.fetchone()[0]
+
+        val_insert = (user_id, to_user_id)
+        cursor.execute(sql_insert, val_insert)
+
+        res = cursor.fetchone()[0]
+
+        connection.commit()
+    except:
+        connection.rollback()
+        raise Exception('Create export failed.')
+
+    cursor.close()
+
+    return res
+
+
+def accept_import(connection, user_id, id):
+    cursor = connection.cursor()
+
+    sql_from_user_id = "SELECT from_user_id FROM exports WHERE id = %s"
+    val_from_user_id = (id,)
+
+    sql_select_locations = "SELECT lat, lng, name FROM locations WHERE user_id = %s"
+    sql_insert_locations = "INSERT INTO locations (lat, lng, name, user_id) VALUES (%s, %s, %s, %s)"
+    sql_delete = "DELETE FROM exports WHERE id = %s"
+    val_delete = (id,)
+
+    try:
+        cursor.execute(sql_from_user_id, val_from_user_id)
+        from_user_id = cursor.fetchone()[0]
+
+        val_select_locations = (from_user_id,)
+        cursor.execute(sql_select_locations, val_select_locations)
+
+        locations = cursor.fetchall()
+
+        for location in locations:
+            try:
+                val_insert_locations = (
+                    location[0], location[1], location[2], user_id)
+                cursor.execute(sql_insert_locations, val_insert_locations)
+            except:
+                pass
+        
+        cursor.execute(sql_delete, val_delete)
+
+        connection.commit()
+    except:
+        connection.rollback()
+        raise Exception('Create export failed.')
+
+    cursor.close()

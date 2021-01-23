@@ -1,30 +1,17 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import { BrowserRouter, Switch, Route, Redirect, useHistory } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Register from "./Register.js"
 import { useState } from 'react';
 import Header from './Header';
 import Login from "./Login.js"
 import Home from "./Home.js"
-import axios from "axios"
+import ImportLocations from "./ImportLocations.js"
+import JoinFamily from "./JoinFamily.js"
+import Activate from "./Activate.js"
 import './App.css';
-
-const join = (token) => {
-  axios
-    .get(`http://localhost:5000/api/families/join/${token}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-    .then((res) => {
-    })
-    .catch((e) => {
-      alert("Cannot join family")
-    });
-}
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("token") != null);
-  const history = useHistory();
 
   return (
     <div className="app">
@@ -66,10 +53,31 @@ function App() {
             path="/families/join/:token"
             render={(props) => {
               if (isLoggedIn) {
-                join(props.match.params.token)
-                return <Redirect to="/"></Redirect>;
+                return <JoinFamily token={props.match.params.token} />
               } else {
                 return <Redirect to="/login"></Redirect>;
+              }
+            }}
+          />
+          <Route
+            exact
+            path="/exports/:id"
+            render={(props) => {
+              if (isLoggedIn) {
+                return <ImportLocations id={props.match.params.id} />
+              } else {
+                return <Redirect to="/login"></Redirect>;
+              }
+            }}
+          />
+          <Route
+            exact
+            path="/activate/:token"
+            render={(props) => {
+              if (!isLoggedIn) {
+                return <Activate token={props.match.params.token} />
+              } else {
+                return <Redirect to="/"></Redirect>;
               }
             }}
           />

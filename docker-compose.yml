@@ -57,6 +57,7 @@ services:
       CHOKIDAR_USEPOLLING: "true"
       NODE_ENV: development
       PROXY: "true"
+      REACT_APP_GOOGLE_MAPS_API: <REPLACE WITH KEY>
     stdin_open: true
     networks:
       - frontend_backend

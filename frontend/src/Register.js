@@ -60,7 +60,7 @@ function Register() {
 
                 <Form.Group controlId="formGridNickname">
                     <Form.Label>Nickname</Form.Label>
-                    <Form.Control placeholder="Vasile Nebunu" onChange={onChangeNickname} value={nickname} />
+                    <Form.Control placeholder="sarmaua34" onChange={onChangeNickname} value={nickname} />
                 </Form.Group>
 
                 <Button variant="primary" type="submit">

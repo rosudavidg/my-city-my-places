@@ -272,5 +272,46 @@ def leave_family():
         database.close_connection(db_connection)
 
 
+@app.route('/api/exports', methods=['POST'])
+def create_export():
+    db_connection = database.create_database_connection()
+
+    try:
+        user = utils.get_user(request)
+        body = request.get_json()
+
+        if body == None:
+            raise Exception('Body is missing.')
+
+        email = utils.get_field(body, 'email')
+
+        export_id = database.create_export(db_connection, user['id'], email)
+
+        # Send export
+        email_utils.send_export_link(email, export_id)
+
+        return Response('Ok.', status=201, mimetype='application/json')
+    except Exception as e:
+        return Response(str(e), status=400, mimetype='application/json')
+    finally:
+        database.close_connection(db_connection)
+
+
+@app.route('/api/exports/<id>', methods=['GET'])
+def accept_import(id):
+    db_connection = database.create_database_connection()
+
+    try:
+        user = utils.get_user(request)
+
+        database.accept_import(db_connection, user['id'], id)
+
+        return Response('Ok.', status=201, mimetype='application/json')
+    except Exception as e:
+        return Response(str(e), status=400, mimetype='application/json')
+    finally:
+        database.close_connection(db_connection)
+
+
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")

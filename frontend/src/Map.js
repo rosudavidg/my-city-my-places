@@ -201,7 +201,7 @@ const Map = ({ locations, setLocations, focusLocation, newLocationCoords, focusL
     return (
         <div className="map">
             < GoogleMapReact
-                // bootstrapURLKeys={{ key: 'KEY' }}
+                bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAPS_API }}
                 center={coords.center}
                 zoom={coords.zoom}
                 onClick={onClickMap}

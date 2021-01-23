@@ -58,7 +58,7 @@ function Register({ setIsLoggedIn }) {
                     <Form.Control type="password" placeholder="Password" onChange={onChangePassword} value={password} />
                 </Form.Group>
 
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" className="login-button">
                     Login
                     <Spinner
                         animation={animation}
@@ -71,7 +71,7 @@ function Register({ setIsLoggedIn }) {
             </Form>
 
             <div className="login-or-divider "> OR </div>
-            <Button variant="success" type="submit" onClick={onClickRegister}>
+            <Button variant="success" type="submit" onClick={onClickRegister} className="register-button">
                 Register
             </Button>
         </div>
