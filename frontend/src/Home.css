@@ -1,0 +1,20 @@
+
+.home {
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    height: 100%;
+    width: 100%;
+}
+    
+.left {
+    display: flex;
+    width: 70%;
+    height: 100%;
+}
+
+.right {
+    display: flex;
+    width: 30%;
+    /* flex-direction: column; */
+}

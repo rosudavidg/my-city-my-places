@@ -1,0 +1,11 @@
+.panel {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-left: 20px;
+    height: 80vh;
+}
+
+.tab {
+    margin-top:20px;
+}

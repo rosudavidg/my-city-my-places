@@ -1,0 +1,24 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  max-width: 50%;
+  margin: auto;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: 100%;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}

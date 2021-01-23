@@ -1,0 +1,9 @@
+.map {
+    height: 80vh;
+    width: 100%;
+}
+
+.location {
+    transform: translate(-0%, -100%);
+    width: 300px;
+}

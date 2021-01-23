@@ -1,0 +1,35 @@
+.locations {
+    overflow-y: scroll;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.locations-line {
+    border-bottom: 1px solid rgb(207, 205, 205);
+    margin-top: 20px;
+}
+
+.location-card {
+    display: flex;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.locations-card-header {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+
+.locations-card-header-title {
+    display: flex;
+    flex-grow: 1;    
+}
+
+
+.locations-card-header-button {
+    margin: auto;
+}
