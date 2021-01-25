@@ -8,6 +8,7 @@
   - [Built With](#built-with)
   - [Architecture](#architecture)
   - [Authors](#authors)
+  - [Documentation](#documentation)
 
 ## Getting Started
 
@@ -58,6 +59,16 @@ docker-compose down
 docker-compose down -v
 ```
 
+## Authors
+
+[Irina Dinu-Murguleț](https://github.com/IrinaDinu97)
+
+[Oana-Luciana Neagu](https://github.com/nLuciana)
+
+[Gabriel David Roșu](https://github.com/rosudavidg)
+
+[Andrei-Liviu Samoilă](https://github.com/Andrei-Liviu)
+
 ## Documentation
 
 <img src="./images/paper-01.png">
@@ -83,7 +94,3 @@ docker-compose down -v
 <img src="./images/paper-21.png">
 <img src="./images/paper-22.png">
 <img src="./images/paper-23.png">
-
-## Authors
-
-WIP
