@@ -22,7 +22,7 @@ echo my_super_user           > secrets/database_user
 echo my_super_password       > secrets/database_password
 echo my_super_email          > secrets/email_address
 echo my_super_email_password > secrets/email_password
-echo my_uuper_auth_jwt_key   > auth_jwt_key
+echo my_super_auth_jwt_key   > auth_jwt_key
 ```
 
 You can also run ```secrets.sh``` script to generate those files:
@@ -58,13 +58,7 @@ docker-compose down
 docker-compose down -v
 ```
 
-## Built With
-
-WIP
-
-## Architecture
-
-WIP
+## Documentation
 
 ## Authors
 
