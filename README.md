@@ -60,6 +60,30 @@ docker-compose down -v
 
 ## Documentation
 
+<img src="./images/paper-01.png">
+<img src="./images/paper-02.png">
+<img src="./images/paper-03.png">
+<img src="./images/paper-04.png">
+<img src="./images/paper-05.png">
+<img src="./images/paper-06.png">
+<img src="./images/paper-07.png">
+<img src="./images/paper-08.png">
+<img src="./images/paper-09.png">
+<img src="./images/paper-10.png">
+<img src="./images/paper-11.png">
+<img src="./images/paper-12.png">
+<img src="./images/paper-13.png">
+<img src="./images/paper-14.png">
+<img src="./images/paper-15.png">
+<img src="./images/paper-16.png">
+<img src="./images/paper-17.png">
+<img src="./images/paper-18.png">
+<img src="./images/paper-19.png">
+<img src="./images/paper-20.png">
+<img src="./images/paper-21.png">
+<img src="./images/paper-22.png">
+<img src="./images/paper-23.png">
+
 ## Authors
 
 WIP
